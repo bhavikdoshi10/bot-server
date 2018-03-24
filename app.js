@@ -6,14 +6,31 @@ var app = express();
 //Database connection
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "library_data"
+  host: "us-cdbr-iron-east-05.cleardb.net",
+  user: "bd3c486c768f8e",
+  password: "53aaa9b2",
+  database: "heroku_1b5e34ec020a60e"
 });
 
 app.use(bodyParser.json());
-app.post('/', (req, res) => {
+
+app.get('/', (req, res) => {
+	console.log('Index Page');
+  res.send("App is running!!!!");
+});
+
+app.get('/all', (req, res) => {
+	console.log('Index Page');
+	//res.send('world');
+
+  	con.query("SELECT * FROM book_location", function (err, result, fields) {
+    if (err) throw err;
+    res.send(result);
+  	});
+
+});
+
+app.post('/all', (req, res) => {
 	console.log('Index Page');
 	//res.send('world');
 
@@ -33,5 +50,8 @@ app.post('/check', (req, res) => {
 });
 //app.use('/books', books);
 
-app.listen(3000);
+var port = process.env.PORT || 3000;
+app.listen(port, "0.0.0.0", function() {
+console.log("Listening on Port 3000");
+});
 //module.exports = app;
